@@ -1,4 +1,4 @@
-import { Bell, ChevronDown, Command, Compass, FileText, Gauge, GraduationCap, LayoutDashboard, LineChart, LogOut, Menu, MessageCircle, Network, PanelLeft, Search, Sparkles, Target, UserRound, X } from "lucide-react";
+import { Bell, ChevronDown, Command, Compass, FileText, Gauge, Globe, GraduationCap, LayoutDashboard, LineChart, LogOut, Menu, MessageCircle, Network, PanelLeft, Search, Sparkles, Target, UserRound, X } from "lucide-react";
 import { Link, useLocation } from "wouter";
 import { useState } from "react";
 import { startLogin } from "@/const";
@@ -16,6 +16,7 @@ const studentNav = [
   { label: "AI Mock Interview", href: "/app/interview", icon: MessageCircle },
   { label: "Projects", href: "/app/projects", icon: Sparkles },
   { label: "Opportunities", href: "/app/opportunities", icon: LineChart },
+  { label: "External Jobs", href: "/app/external-jobs", icon: Globe },
   { label: "Applications", href: "/app/applications", icon: FileText },
 ];
 

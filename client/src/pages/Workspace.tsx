@@ -1,5 +1,5 @@
 import { Area, AreaChart, Bar, BarChart, CartesianGrid, Cell, Pie, PieChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
-import { ArrowDownRight, ArrowLeft, ArrowRight, ArrowUpRight, Award, BookOpen, BriefcaseBusiness, Check, ChevronRight, CircleAlert, ClipboardCheck, Cloud, Code2, ExternalLink, Eye, FileText, Filter, Flame, FolderGit2, GraduationCap, Layers3, Lightbulb, LineChart, Lock, Mail, MapPin, MessageCircle, MoreHorizontal, Plus, RefreshCw, Search, Send, ShieldCheck, Sparkles, Target, Upload, Users, X } from "lucide-react";
+import { ArrowDownRight, ArrowLeft, ArrowRight, ArrowUpRight, Award, BookOpen, BriefcaseBusiness, Check, ChevronRight, CircleAlert, ClipboardCheck, Cloud, Code2, ExternalLink, Eye, FileText, Filter, Flame, FolderGit2, GraduationCap, Globe, Layers3, Lightbulb, LineChart, Lock, Mail, MapPin, MessageCircle, MoreHorizontal, Plus, RefreshCw, Search, Send, ShieldCheck, Sparkles, Target, Upload, Users, X } from "lucide-react";
 import { useMemo, useState, useEffect } from "react";
 import { Link, useLocation } from "wouter";
 import { toast } from "sonner";
@@ -23,6 +23,7 @@ function StudentRouter() {
   if (path.startsWith("/app/interview")) return <MockInterviewPage />;
   if (path.startsWith("/app/projects")) return <ProjectsPage />;
   if (path.startsWith("/app/opportunities")) return <OpportunitiesPage />;
+  if (path.startsWith("/app/external-jobs")) return <ExternalJobsPage />;
   if (path.startsWith("/app/applications")) return <ApplicationsPage />;
   if (path.startsWith("/app/notifications")) return <NotificationsPage />;
   return <StudentDashboard />;
@@ -2823,6 +2824,276 @@ function MockInterviewPage() {
               </div>
             </Card>
           )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// EXTERNAL JOBS MODULE — Off-Campus Placement Portal
+const EXTERNAL_JOBS = [
+  {
+    id: "ext-1",
+    company: "Google",
+    title: "Software Engineer, New Grad 2026",
+    location: "Bengaluru · Hybrid",
+    ctc: "₹28–35 LPA",
+    deadline: "2026-10-20",
+    source: "LinkedIn",
+    sourceUrl: "https://www.linkedin.com/jobs/",
+    applyUrl: "https://careers.google.com/jobs/",
+    description: "Join Google's engineering team to build systems used by billions of people. Focused on distributed systems, backend infrastructure, and cloud-native applications.",
+    requiredSkills: ["Python", "Data Structures", "SQL", "System Design"],
+    category: "Tech Giant",
+    posted: "2 days ago",
+  },
+  {
+    id: "ext-2",
+    company: "Razorpay",
+    title: "Backend Engineer — Payments Core",
+    location: "Bengaluru · On-site",
+    ctc: "₹18–24 LPA",
+    deadline: "2026-10-05",
+    source: "AngelList",
+    sourceUrl: "https://angel.co/jobs",
+    applyUrl: "https://razorpay.com/jobs/",
+    description: "Work on Razorpay's core payment gateway infrastructure handling ₹2L Cr+ in annualised TPV. Strong Go/Python, distributed systems, and financial product experience preferred.",
+    requiredSkills: ["Python", "SQL", "FastAPI", "Git"],
+    category: "Fintech",
+    posted: "1 day ago",
+  },
+  {
+    id: "ext-3",
+    company: "Zepto",
+    title: "Data Analyst — Growth & Retention",
+    location: "Mumbai · Hybrid",
+    ctc: "₹12–16 LPA",
+    deadline: "2026-09-30",
+    source: "Naukri",
+    sourceUrl: "https://www.naukri.com/",
+    applyUrl: "https://www.naukri.com/zepto-jobs",
+    description: "Drive Zepto's hyperlocal commerce analytics. Build cohort analyses, funnel models, and growth experiments using SQL and Python. Work directly with product and growth leadership.",
+    requiredSkills: ["SQL", "Python", "Communication"],
+    category: "Startup",
+    posted: "3 days ago",
+  },
+  {
+    id: "ext-4",
+    company: "CRED",
+    title: "Frontend Engineer — Design Systems",
+    location: "Bengaluru · Hybrid",
+    ctc: "₹16–22 LPA",
+    deadline: "2026-10-10",
+    source: "LinkedIn",
+    sourceUrl: "https://www.linkedin.com/jobs/",
+    applyUrl: "https://careers.cred.club/",
+    description: "Build CRED's component library and design system used across iOS, Android, and Web. React, TypeScript, and Storybook expertise essential. Pixel-perfect taste required.",
+    requiredSkills: ["React", "TypeScript", "Git"],
+    category: "Fintech",
+    posted: "Today",
+  },
+  {
+    id: "ext-5",
+    company: "Sarvam AI",
+    title: "AI/ML Engineer — Indic Language Models",
+    location: "Bengaluru · On-site",
+    ctc: "₹20–28 LPA",
+    deadline: "2026-10-15",
+    source: "AngelList",
+    sourceUrl: "https://angel.co/jobs",
+    applyUrl: "https://sarvam.ai/careers",
+    description: "Build state-of-the-art LLMs for Indic languages. Work on pre-training, fine-tuning, RLHF, and production deployment of multi-lingual transformer models.",
+    requiredSkills: ["Python", "Machine Learning", "FastAPI"],
+    category: "AI/ML",
+    posted: "5 days ago",
+  },
+  {
+    id: "ext-6",
+    company: "Internshala",
+    title: "Software Developer Intern (6 months → PPO)",
+    location: "Remote · India",
+    ctc: "₹30–50k/month",
+    deadline: "2026-09-28",
+    source: "Internshala",
+    sourceUrl: "https://internshala.com/",
+    applyUrl: "https://internshala.com/internships/",
+    description: "6-month SDE internship with Pre-Placement Offer. Work on full-stack features used by 15M+ students. React, Node.js, and PostgreSQL stack.",
+    requiredSkills: ["React", "SQL", "Git"],
+    category: "Internship + PPO",
+    posted: "Yesterday",
+  },
+];
+
+const SOURCE_COLORS: Record<string, string> = {
+  LinkedIn: "bg-[#0a66c2] text-white",
+  Naukri: "bg-[#f24e2c] text-white",
+  AngelList: "bg-[#12201b] text-white",
+  Internshala: "bg-[#00aeef] text-white",
+};
+
+function ExternalJobsPage() {
+  const dashboard = trpc.omen.dashboard.useQuery();
+  const [search, setSearch] = useState("");
+  const [category, setCategory] = useState("All");
+  const [trackedIds, setTrackedIds] = useState<Set<string>>(new Set());
+
+  const studentSkills = useMemo(() => {
+    return dashboard.data?.student?.skills?.map((s: any) => s.name) ?? ["Python", "React", "SQL", "Git"];
+  }, [dashboard.data]);
+
+  const calcMatchScore = (requiredSkills: string[]) => {
+    const matched = requiredSkills.filter((skill) =>
+      studentSkills.some((s: string) => s.toLowerCase() === skill.toLowerCase())
+    );
+    return Math.round((matched.length / requiredSkills.length) * 100);
+  };
+
+  const categories = ["All", "Tech Giant", "Fintech", "Startup", "AI/ML", "Internship + PPO"];
+  const filtered = EXTERNAL_JOBS.filter((job) => {
+    const matchesSearch =
+      job.title.toLowerCase().includes(search.toLowerCase()) ||
+      job.company.toLowerCase().includes(search.toLowerCase()) ||
+      job.requiredSkills.some((s) => s.toLowerCase().includes(search.toLowerCase()));
+    const matchesCategory = category === "All" || job.category === category;
+    return matchesSearch && matchesCategory;
+  });
+
+  return (
+    <div>
+      <PageHeader
+        eyebrow="Off-Campus · External Opportunities"
+        title="Beyond Campus Placements."
+        copy="Curated off-campus roles from LinkedIn, Naukri, AngelList, and Internshala — matched against your OMEN resume profile. Click Apply to go directly to the company portal."
+        action={
+          <div className="flex items-center gap-2">
+            <Tag tone="blue">{filtered.length} Live Listings</Tag>
+            <a href="https://www.linkedin.com/jobs/" target="_blank" rel="noreferrer"
+              className="flex items-center gap-1.5 rounded-xl border border-[#dce2da] bg-white px-3 py-2 text-xs font-semibold text-[#6b756e] hover:bg-[#edf0ec]">
+              <Globe size={13} /> Browse All on LinkedIn
+            </a>
+          </div>
+        }
+      />
+
+      {/* FILTERS */}
+      <div className="mb-5 flex flex-wrap items-center gap-3">
+        <div className="relative flex-1 min-w-[220px]">
+          <Search className="absolute left-3.5 top-3 h-4 w-4 text-[#89948c]" />
+          <input
+            type="text"
+            placeholder="Search role, company, or skill..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="w-full rounded-xl border border-[#dce2da] bg-white pl-10 pr-4 py-2.5 text-xs text-[#12201b] focus:outline-none focus:border-[#6b78f7]"
+          />
+        </div>
+        <div className="flex flex-wrap gap-2">
+          {categories.map((cat) => (
+            <button
+              key={cat}
+              onClick={() => setCategory(cat)}
+              className={`rounded-lg px-3 py-2 text-xs font-semibold transition-colors ${category === cat ? "bg-[#12201b] text-white" : "border border-[#dce2da] bg-white text-[#6b756e] hover:bg-[#edf0ec]"}`}
+            >
+              {cat}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <div className="space-y-4">
+        {filtered.map((job) => {
+          const score = calcMatchScore(job.requiredSkills);
+          const matchedSkills = job.requiredSkills.filter((s) =>
+            studentSkills.some((sk: string) => sk.toLowerCase() === s.toLowerCase())
+          );
+          const isTracked = trackedIds.has(job.id);
+          const daysLeft = Math.max(0, Math.round((new Date(job.deadline).getTime() - Date.now()) / 86400000));
+
+          return (
+            <Card key={job.id} className="card-lift">
+              <div className="flex flex-col justify-between gap-5 lg:flex-row lg:items-start">
+                <div className="flex gap-4">
+                  <div className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-[#12201b] font-display font-bold text-[#d7fb61] text-lg">
+                    {job.company.slice(0, 1)}
+                  </div>
+                  <div>
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span className="text-xs font-semibold text-[#6b78f7]">{job.company}</span>
+                      <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${SOURCE_COLORS[job.source] ?? "bg-[#eef1ec] text-[#5c6b61]"}`}>
+                        {job.source}
+                      </span>
+                      <Tag tone="gray">{job.category}</Tag>
+                    </div>
+                    <h2 className="mt-1 text-xl font-semibold">{job.title}</h2>
+                    <div className="mt-2 flex flex-wrap gap-3 text-xs text-[#78847b]">
+                      <span className="flex items-center gap-1"><MapPin size={13} />{job.location}</span>
+                      <span className="flex items-center gap-1"><Award size={13} />{job.ctc}</span>
+                      <span className="flex items-center gap-1"><BriefcaseBusiness size={13} />{daysLeft} days left · {job.posted}</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-2 shrink-0">
+                  <div className="rounded-xl bg-[#eef1ec] px-4 py-2 text-center">
+                    <div className={`font-display text-2xl font-bold ${score >= 70 ? "text-[#4d7459]" : score >= 40 ? "text-[#a75b18]" : "text-[#6b756e]"}`}>
+                      {score}%
+                    </div>
+                    <div className="font-mono text-[9px] uppercase tracking-[.12em] text-[#78847b]">Resume Match</div>
+                  </div>
+                  {score >= 70 ? <Tag tone="lime">Strong Match</Tag> : score >= 40 ? <Tag tone="orange">Partial Match</Tag> : <Tag tone="gray">Skill Gap</Tag>}
+                </div>
+              </div>
+
+              <p className="mt-5 max-w-[720px] text-sm leading-6 text-[#66736a]">{job.description}</p>
+
+              <div className="mt-5 flex flex-wrap items-center justify-between gap-4 border-t border-[#edf0ec] pt-4">
+                <div className="flex flex-wrap gap-2">
+                  {job.requiredSkills.map((skill) => (
+                    <span key={skill} className={`rounded-md px-2 py-1 text-[10px] font-mono ${matchedSkills.includes(skill) ? "bg-[#e7f5d0] text-[#4c6e3d]" : "bg-[#fff0de] text-[#a75b18]"}`}>
+                      {matchedSkills.includes(skill) ? "✓ " : "→ "}{skill}
+                    </span>
+                  ))}
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => {
+                      const next = new Set(trackedIds);
+                      if (isTracked) next.delete(job.id); else next.add(job.id);
+                      setTrackedIds(next);
+                      toast.success(isTracked ? "Removed from tracker" : "Added to your application tracker!");
+                    }}
+                    className={`rounded-xl border px-3 py-2.5 text-xs font-semibold transition-colors ${isTracked ? "border-[#4d7459] bg-[#eff6df] text-[#4d7459]" : "border-[#dce2da] bg-white text-[#6b756e] hover:bg-[#edf0ec]"}`}
+                  >
+                    {isTracked ? <><Check size={12} className="mr-1 inline" />Tracked</> : "Track Application"}
+                  </button>
+                  <a
+                    href={job.applyUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="flex items-center gap-1.5 rounded-xl bg-[#12201b] px-4 py-2.5 text-xs font-semibold text-white hover:bg-[#20332b]"
+                    onClick={() => toast.success(`Opening ${job.company} application portal...`)}
+                  >
+                    Apply Now <ExternalLink size={13} />
+                  </a>
+                </div>
+              </div>
+            </Card>
+          );
+        })}
+      </div>
+
+      {filtered.length === 0 && (
+        <div className="mt-10 text-center py-16 text-sm text-[#78847b] border border-dashed border-[#dce2da] rounded-2xl">
+          No external jobs match your search. <button onClick={() => { setSearch(""); setCategory("All"); }} className="text-[#6b78f7] font-semibold underline">Clear filters</button>
+        </div>
+      )}
+
+      <div className="mt-6 rounded-2xl border border-[#dce2da] bg-[#f5f5f1] p-5 flex items-start gap-4">
+        <Globe size={22} className="text-[#6b78f7] shrink-0 mt-0.5" />
+        <div>
+          <div className="text-sm font-bold text-[#12201b]">More External Job Portals</div>
+          <p className="mt-1 text-xs text-[#78847b] leading-relaxed">Explore additional platforms: <a href="https://www.naukri.com/" target="_blank" rel="noreferrer" className="text-[#6b78f7] font-semibold hover:underline">Naukri</a> · <a href="https://angel.co/jobs" target="_blank" rel="noreferrer" className="text-[#6b78f7] font-semibold hover:underline">AngelList</a> · <a href="https://internshala.com/" target="_blank" rel="noreferrer" className="text-[#6b78f7] font-semibold hover:underline">Internshala</a> · <a href="https://wellfound.com/" target="_blank" rel="noreferrer" className="text-[#6b78f7] font-semibold hover:underline">Wellfound</a> · <a href="https://www.instahyre.com/" target="_blank" rel="noreferrer" className="text-[#6b78f7] font-semibold hover:underline">InstaHyre</a>. Use your OMEN resume score to gauge your match before applying externally.</p>
         </div>
       </div>
     </div>
