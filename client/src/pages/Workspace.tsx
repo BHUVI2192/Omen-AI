@@ -816,12 +816,8 @@ function ProfilePage() {
   const [showPreview, setShowPreview] = useState(false);
   const [localResumeBlob, setLocalResumeBlob] = useState<string | null>(null);
 
-  if (!dashboard.data) return <LoadingState label="Loading your profile" />;
-  const student = dashboard.data.student;
-
-  const [githubUrlInput, setGithubUrlInput] = useState((student as any).githubUrl || "https://github.com/aaravmehta");
-  const [linkedinUrlInput, setLinkedinUrlInput] = useState((student as any).linkedinUrl || "https://linkedin.com/in/aaravmehta");
-
+  const [githubUrlInput, setGithubUrlInput] = useState("https://github.com/aaravmehta");
+  const [linkedinUrlInput, setLinkedinUrlInput] = useState("https://linkedin.com/in/aaravmehta");
   const [realRepos, setRealRepos] = useState<any[]>([]);
   const [loadingRepos, setLoadingRepos] = useState(false);
   const [repoStatusMsg, setRepoStatusMsg] = useState<string>("");
@@ -832,6 +828,14 @@ function ProfilePage() {
       utils.omen.dashboard.invalidate();
     },
   });
+
+  useEffect(() => {
+    if (dashboard.data?.student) {
+      const s = dashboard.data.student as any;
+      if (s.githubUrl) setGithubUrlInput(s.githubUrl);
+      if (s.linkedinUrl) setLinkedinUrlInput(s.linkedinUrl);
+    }
+  }, [dashboard.data]);
 
   const fetchGithubRepos = async (urlStr: string) => {
     if (!urlStr) return;
@@ -875,6 +879,9 @@ function ProfilePage() {
       fetchGithubRepos(githubUrlInput);
     }
   }, []);
+
+  if (!dashboard.data) return <LoadingState label="Loading your profile" />;
+  const student = dashboard.data.student;
 
   const handleSaveProfile = () => {
     saveProfileMut.mutate({
