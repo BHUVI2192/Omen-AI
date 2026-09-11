@@ -2932,14 +2932,14 @@ const SOURCE_COLORS: Record<string, string> = {
 };
 
 function ExternalJobsPage() {
-  const dashboard = trpc.omen.dashboard.useQuery();
+  const skillsQuery = trpc.omen.skills.useQuery();
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("All");
   const [trackedIds, setTrackedIds] = useState<Set<string>>(new Set());
 
   const studentSkills = useMemo(() => {
-    return dashboard.data?.student?.skills?.map((s: any) => s.name) ?? ["Python", "React", "SQL", "Git"];
-  }, [dashboard.data]);
+    return skillsQuery.data?.map((s) => s.name) ?? ["Python", "React", "SQL", "Git"];
+  }, [skillsQuery.data]);
 
   const calcMatchScore = (requiredSkills: string[]) => {
     const matched = requiredSkills.filter((skill) =>
