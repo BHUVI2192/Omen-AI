@@ -97,74 +97,7 @@ const sqlVideos: VideoLesson[] = Array.from({ length: 12 }, (_, i) => ({
   description: `Master lesson ${i + 1} for production database queries, relational schema modeling, and analytics performance.`,
 }));
 
-const sqlQuizzes: Quiz[] = [
-  {
-    id: "q-sql-1",
-    afterVideoIndex: 5,
-    title: "Checkpoint 1: Relational Queries & Joins",
-    questions: [
-      { id: "q1", question: "Which clause filters rows AFTER aggregate functions like COUNT() or SUM() are evaluated?", options: ["WHERE", "HAVING", "GROUP BY", "ORDER BY"], answerIndex: 1, explanation: "HAVING filters grouped/aggregated records, whereas WHERE filters individual rows before aggregation." },
-      { id: "q2", question: "What is the result of a LEFT JOIN if a row in the left table has no match in the right table?", options: ["The left row is excluded", "Right table columns return NULL", "An exception is thrown", "A cross product is generated"], answerIndex: 1, explanation: "LEFT JOIN preserves all rows from the left table and fills missing right table attributes with NULL." },
-      { id: "q3", question: "Which SQL constraint guarantees uniqueness across a column or set of columns?", options: ["FOREIGN KEY", "UNIQUE", "NOT NULL", "CHECK"], answerIndex: 1, explanation: "The UNIQUE constraint ensures all non-null values in a column are distinct." },
-    ],
-  },
-  {
-    id: "q-sql-2",
-    afterVideoIndex: 10,
-    title: "Checkpoint 2: Advanced Window Functions & CTEs",
-    questions: [
-      { id: "q4", question: "How does DENSE_RANK() differ from RANK() when values tie?", options: ["DENSE_RANK skips rank numbers after ties", "DENSE_RANK produces contiguous rank numbers without gaps", "RANK produces no ties", "DENSE_RANK only works on strings"], answerIndex: 1, explanation: "DENSE_RANK leaves no gaps in ranking numbers after tied values." },
-      { id: "q5", question: "What keyword introduces a Common Table Expression (CTE)?", options: ["WITH", "LET", "USING", "CREATE CTE"], answerIndex: 0, explanation: "A CTE is defined using the WITH statement preceding the main query." },
-    ],
-  },
-];
 
-const awsYoutubeUrls = [
-  "https://www.youtube.com/watch?v=r4YIdn2pe9w",
-  "https://www.youtube.com/watch?v=i_N3kpyQ-O0",
-  "https://www.youtube.com/watch?v=e6w9LwZJFBU",
-  "https://www.youtube.com/watch?v=gK14fJv_e6c",
-  "https://www.youtube.com/watch?v=Vl8_Y46J2Y8",
-  "https://www.youtube.com/watch?v=7-qH_-lG4rA",
-  "https://www.youtube.com/watch?v=eOBq__hVUBE",
-  "https://www.youtube.com/watch?v=vV_X115zDbg",
-  "https://www.youtube.com/watch?v=9L8W8mYc_O0",
-  "https://www.youtube.com/watch?v=fqMOX6JJhGo",
-  "https://www.youtube.com/watch?v=Yc40w1F4B0w",
-];
-
-const awsVideos: VideoLesson[] = Array.from({ length: 11 }, (_, i) => ({
-  id: `v-aws-${i + 1}`,
-  index: i + 1,
-  title: [
-    "1. AWS Cloud Architecture & Infrastructure Overview",
-    "2. EC2 Virtual Machines & Security Group Rules",
-    "3. Amazon S3 Object Storage & Bucket Policies",
-    "4. VPC Networking: Subnets, Route Tables & Gateways",
-    "5. AWS IAM Users, Roles & Principle of Least Privilege",
-    "6. Relational Database Service (RDS) & Read Replicas",
-    "7. AWS Lambda Serverless Functions & Event Triggers",
-    "8. API Gateway Integration with Lambda Backends",
-    "9. CloudWatch Metrics, Alarms & Log Groups",
-    "10. Docker Container Deployment on AWS ECS",
-    "11. Terraform Infrastructure as Code (IaC) on AWS",
-  ][i],
-  duration: `${11 + (i % 4) * 2} mins`,
-  url: awsYoutubeUrls[i] || awsYoutubeUrls[0],
-  description: `Hands-on cloud engineering lesson ${i + 1} for deploying resilient web services on AWS.`,
-}));
-
-const awsQuizzes: Quiz[] = [
-  {
-    id: "q-aws-1",
-    afterVideoIndex: 5,
-    title: "Checkpoint 1: Core AWS Services & IAM",
-    questions: [
-      { id: "q-a1", question: "Which AWS service provides scalable object storage?", options: ["EC2", "S3", "EBS", "RDS"], answerIndex: 1, explanation: "Amazon S3 (Simple Storage Service) is built for object storage." },
-      { id: "q-a2", question: "What is the primary role of AWS Security Groups?", options: ["Domain registration", "Stateful instance-level firewall", "Content delivery network", "DNS routing"], answerIndex: 1, explanation: "Security groups act as stateful firewalls controlling inbound and outbound traffic." },
-    ],
-  },
-];
 
 const sysYoutubeUrls = [
   "https://www.youtube.com/watch?v=m8Icp_Cidto",
@@ -325,6 +258,205 @@ export const aiAgents30DayVideos: VideoLesson[] = [
   { id: "v-agent-30", index: 30, title: "Day 30: Capstone: end-to-end AI agent project (LangChain + FastAPI + tools)", duration: "~45-60 min", url: "https://www.youtube.com/watch?v=AO6WbXTeDow", description: "AI Agents | Concept: Capstone: end-to-end AI agent project (LangChain + FastAPI + tools)" },
 ];
 
+const llmEngineeringQuizzes: Quiz[] = [
+  {
+    id: "q-llm-1",
+    afterVideoIndex: 5,
+    title: "Checkpoint 1: Core Transformers, Attention & Tokenization",
+    questions: [
+      {
+        id: "q-llm-1-1",
+        question: "What key mathematical formula computes Scaled Dot-Product Attention in Transformer architectures?",
+        options: [
+          "Softmax(Q·Kᵀ / √dₖ) · V",
+          "Convolution(Q, K) + ReLU(V)",
+          "Sigmoid(W_q · Q + W_k · K) * V",
+          "Linear(Q) · Linear(K) · Linear(V)"
+        ],
+        answerIndex: 0,
+        explanation: "Scaled Dot-Product Attention measures similarity between query vectors Q and key vectors K, scaled by 1/√dₖ, then applies Softmax to weight value vectors V."
+      },
+      {
+        id: "q-llm-1-2",
+        question: "Which subword tokenization algorithm is most widely used in modern LLMs like Llama 3 and GPT-4?",
+        options: [
+          "Byte-Pair Encoding (BPE)",
+          "Word-level Dictionary Lookup",
+          "Character-level ASCII Encoding",
+          "N-gram Regex Hashing"
+        ],
+        answerIndex: 0,
+        explanation: "Byte-Pair Encoding (BPE) iteratively merges frequent character/byte pairs, effectively handling rare subwords and unknown vocabularies."
+      },
+      {
+        id: "q-llm-1-3",
+        question: "What vector similarity metric is standard for dense embedding retrieval in Vector DBs like Chroma and Pinecone?",
+        options: ["Cosine Similarity", "Euclidean Manhattan Distance", "Hamming XOR Distance", "Jaccard Set Similarity"],
+        answerIndex: 0,
+        explanation: "Cosine similarity calculates the cosine of the angle between two normalized dense vectors, focusing purely on semantic direction."
+      }
+    ]
+  },
+  {
+    id: "q-llm-2",
+    afterVideoIndex: 15,
+    title: "Checkpoint 2: RAG Pipeline, Chunks & Vector Search",
+    questions: [
+      {
+        id: "q-llm-2-1",
+        question: "In a Retrieval-Augmented Generation (RAG) system, what is the role of a Re-ranker (Cross-Encoder)?",
+        options: [
+          "To re-score top-k vector search results using joint cross-attention for higher semantic precision",
+          "To compress text documents before vector indexing",
+          "To generate synthetic user prompts",
+          "To format the LLM JSON response"
+        ],
+        answerIndex: 0,
+        explanation: "Re-rankers evaluate query-document pairs simultaneously using cross-encoders, dramatically improving document context ranking over bi-encoder vector similarity alone."
+      },
+      {
+        id: "q-llm-2-2",
+        question: "Why is semantic chunk overlapping (e.g. 500 tokens with 50-token overlap) applied during document ingestion?",
+        options: [
+          "To preserve contextual boundaries and prevent sentence truncation at chunk cuts",
+          "To decrease the total memory size of the vector index",
+          "To eliminate duplicate text in source documents",
+          "To bypass context window limits in the LLM"
+        ],
+        answerIndex: 0,
+        explanation: "Chunk overlap ensures that sentences or concepts near boundary splits are not severed from their surrounding contextual meaning."
+      }
+    ]
+  },
+  {
+    id: "q-llm-3",
+    afterVideoIndex: 25,
+    title: "Checkpoint 3: Fine-Tuning, LoRA & Quantization",
+    questions: [
+      {
+        id: "q-llm-3-1",
+        question: "How does LoRA (Low-Rank Adaptation) enable efficient parameter fine-tuning of large models?",
+        options: [
+          "By freezing base weights and introducing low-rank trainable decomposition matrices (A and B)",
+          "By training only the final output classification layer",
+          "By pruning 50% of self-attention heads",
+          "By converting model weights into binary 1-bit format"
+        ],
+        answerIndex: 0,
+        explanation: "LoRA decomposes weight updates ΔW = A · B where rank r ≪ min(d, k), scaling down trainable parameters by over 99%."
+      },
+      {
+        id: "q-llm-3-2",
+        question: "What is the primary benefit of 4-bit model quantization (e.g. AWQ, GGUF/bitsandbytes)?",
+        options: [
+          "Dramatically reduces GPU VRAM consumption while retaining ~95%+ base model accuracy",
+          "Increases LLM context window size by 4x",
+          "Enables real-time internet web search without API keys",
+          "Guarantees zero hallucinations in output text"
+        ],
+        answerIndex: 0,
+        explanation: "Quantization converts 16-bit floating point weights into 4-bit integers, enabling high-parameter models to run on standard hardware with minimal quality loss."
+      }
+    ]
+  }
+];
+
+const aiAgentsQuizzes: Quiz[] = [
+  {
+    id: "q-agent-1",
+    afterVideoIndex: 5,
+    title: "Checkpoint 1: ReAct Framework & Tool Execution",
+    questions: [
+      {
+        id: "q-agent-1-1",
+        question: "What sequence of steps defines the standard ReAct (Reasoning + Acting) Agent loop?",
+        options: [
+          "Thought → Action → Action Input → Observation → Final Answer",
+          "Prompt → Compile → Execute → Garbage Collect",
+          "Input → Dense Embed → Linear Layer → Softmax Output",
+          "Fetch → Decode → Store → Update"
+        ],
+        answerIndex: 0,
+        explanation: "ReAct combines explicit reasoning ('Thought') with concrete tool execution ('Action') and environment feedback ('Observation') to dynamically solve complex tasks."
+      },
+      {
+        id: "q-agent-1-2",
+        question: "In OpenAI Function Calling, how does the LLM signal its intent to execute a tool?",
+        options: [
+          "It returns a structured tool_calls payload containing tool name and JSON arguments",
+          "It executes JavaScript directly in the browser runtime",
+          "It sends an HTTP POST request to the API gateway",
+          "It generates raw Markdown code blocks"
+        ],
+        answerIndex: 0,
+        explanation: "The LLM generates a response with finish_reason: 'tool_calls' specifying function signatures, letting the application execute the code safely."
+      }
+    ]
+  },
+  {
+    id: "q-agent-2",
+    afterVideoIndex: 15,
+    title: "Checkpoint 2: Stateful Graphs & Multi-Agent Orchestration",
+    questions: [
+      {
+        id: "q-agent-2-1",
+        question: "What unique architectural capability does LangGraph offer over standard linear agent chains?",
+        options: [
+          "Cyclic state machine graph execution with persistent memory and human-in-the-loop nodes",
+          "Automatic compilation of Python code into Rust binaries",
+          "Bypassing LLM rate limits across API providers",
+          "Native support for SQL database migrations"
+        ],
+        answerIndex: 0,
+        explanation: "LangGraph models agent workflows as stateful graphs supporting loops, state persistence, branching, and pause/resume checkpoints for human intervention."
+      },
+      {
+        id: "q-agent-2-2",
+        question: "How does CrewAI organize multi-agent collaboration?",
+        options: [
+          "By assigning discrete Roles, Goals, Backstories, and Tools to agents grouped within a Crew",
+          "By spawning multiple Docker containers on Kubernetes",
+          "By merging all agent prompts into a single master system message",
+          "By running parallel threads on GPU clusters"
+        ],
+        answerIndex: 0,
+        explanation: "CrewAI models teams by giving individual agents specialized personas and tool sets, orchestrating them via sequential or hierarchical tasks."
+      }
+    ]
+  },
+  {
+    id: "q-agent-3",
+    afterVideoIndex: 25,
+    title: "Checkpoint 3: Model Context Protocol (MCP) & Agent Security",
+    questions: [
+      {
+        id: "q-agent-3-1",
+        question: "What is Model Context Protocol (MCP)?",
+        options: [
+          "An open standard standardizing how AI applications connect to external data sources and local tools",
+          "A TCP/IP network protocol for GPU server clusters",
+          "A replacement for HTTP/2 web sockets",
+          "A database query language for vector databases"
+        ],
+        answerIndex: 0,
+        explanation: "MCP (Model Context Protocol) provides a unified client-server architecture for LLM applications to access local contexts, files, and tools securely."
+      },
+      {
+        id: "q-agent-3-2",
+        question: "What is Indirect Prompt Injection in autonomous AI agents?",
+        options: [
+          "Malicious instructions embedded inside external untrusted data (web pages, PDFs, emails) ingested by the agent",
+          "Overheating of GPU memory during agent reasoning",
+          "Loss of API connectivity between the client and server",
+          "A syntax error in agent Python code"
+        ],
+        answerIndex: 0,
+        explanation: "Indirect prompt injection occurs when an agent reads external untrusted content containing hidden text meant to hijack the LLM's system instructions."
+      }
+    ]
+  }
+];
+
 const courses: Course[] = [
   {
     id: "course-llm-engineering",
@@ -336,7 +468,7 @@ const courses: Course[] = [
     description: "Complete 30-day curriculum: Transformers, Tokenization, Embeddings, OpenAI, LangChain, Vector Databases, RAG, Fine-tuning, LoRA, Quantization, Ollama, Function Calling, Agents, LangSmith, FastAPI, and Capstone RAG Chatbot.",
     skills: ["Python", "Transformers", "RAG", "LangChain", "Vector DB", "FastAPI", "Fine-tuning"],
     videos: llmEngineering30DayVideos,
-    quizzes: sqlQuizzes,
+    quizzes: llmEngineeringQuizzes,
     docs: [
       { title: "LLM Engineering 30-Day Roadmap", url: "https://www.youtube.com/watch?v=zjkBMFhNj_g", type: "Guide" },
       { title: "Hugging Face Transformers Docs", url: "https://huggingface.co/docs/transformers", type: "Docs" },
@@ -353,7 +485,7 @@ const courses: Course[] = [
     description: "Complete 30-day curriculum: ReAct framework, Memory, LangChain & LangGraph agents, AutoGPT, CrewAI, AutoGen, OpenAI Agents SDK, Function Calling, Agentic RAG, Planning, MCP, n8n, Observability, and Capstone Agent.",
     skills: ["AI Agents", "LangGraph", "CrewAI", "AutoGen", "OpenAI SDK", "MCP", "n8n"],
     videos: aiAgents30DayVideos,
-    quizzes: awsQuizzes,
+    quizzes: aiAgentsQuizzes,
     docs: [
       { title: "AI Agents 30-Day Roadmap", url: "https://www.youtube.com/watch?v=TZMdEg1ZoIo", type: "Guide" },
       { title: "LangGraph Developer Guide", url: "https://langchain-ai.github.io/langgraph/", type: "Docs" },
