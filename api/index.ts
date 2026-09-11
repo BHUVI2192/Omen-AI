@@ -1,4 +1,4 @@
-// Vercel Serverless Function — OMEN Express API Handler
+// Vercel Serverless Function Entry Point for OMEN
 import "dotenv/config";
 import express from "express";
 import { createExpressMiddleware } from "@trpc/server/adapters/express";
@@ -6,7 +6,6 @@ import { appRouter } from "../server/routers";
 import { createContext } from "../server/_core/context";
 import { registerOAuthRoutes } from "../server/_core/oauth";
 import { registerStorageProxy } from "../server/_core/storageProxy";
-
 import { getMarketIntelligence } from "../server/services/market-trends";
 
 const app = express();

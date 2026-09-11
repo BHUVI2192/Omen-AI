@@ -4,14 +4,9 @@
   "outputDirectory": "dist/public",
   "installCommand": "pnpm install --frozen-lockfile",
   "framework": null,
-  "functions": {
-    "api/server.js": {
-      "maxDuration": 30
-    }
-  },
   "rewrites": [
-    { "source": "/api/(.*)", "destination": "/api/server" },
-    { "source": "/auth/(.*)", "destination": "/api/server" },
+    { "source": "/api/(.*)", "destination": "/api/index" },
+    { "source": "/auth/(.*)", "destination": "/api/index" },
     { "source": "/(.*)", "destination": "/index.html" }
   ]
 }
