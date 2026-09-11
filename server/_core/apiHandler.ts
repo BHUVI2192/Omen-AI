@@ -1,12 +1,12 @@
-// Vercel Serverless Function Entry Point for OMEN
+// Vercel Serverless Function Handler Source
 import "dotenv/config";
 import express from "express";
 import { createExpressMiddleware } from "@trpc/server/adapters/express";
-import { appRouter } from "../server/routers";
-import { createContext } from "../server/_core/context";
-import { registerOAuthRoutes } from "../server/_core/oauth";
-import { registerStorageProxy } from "../server/_core/storageProxy";
-import { getMarketIntelligence } from "../server/services/market-trends";
+import { appRouter } from "../routers";
+import { createContext } from "./context";
+import { registerOAuthRoutes } from "./oauth";
+import { registerStorageProxy } from "./storageProxy";
+import { getMarketIntelligence } from "../services/market-trends";
 
 const app = express();
 
