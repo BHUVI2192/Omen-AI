@@ -1,0 +1,15 @@
+# Public browser variables
+VITE_SUPABASE_URL=https://your-project.supabase.co
+VITE_SUPABASE_ANON_KEY=your-anon-key
+
+# Server-only Prisma variables
+DATABASE_URL=postgresql://postgres:password@db.your-project.supabase.co:5432/postgres?sslmode=require
+DIRECT_URL=postgresql://postgres:password@db.your-project.supabase.co:5432/postgres?sslmode=require
+
+# Optional provider boundaries
+MARKET_DATA_PROVIDER_URL=
+SMTP_HOST=
+SMTP_USER=
+SMTP_PASSWORD=
+
+Use the deployment secret manager for real values. Do not commit `.env` or service-role credentials.
