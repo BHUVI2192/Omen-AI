@@ -5,8 +5,7 @@
   "installCommand": "pnpm install --frozen-lockfile",
   "framework": null,
   "functions": {
-    "api/server.ts": {
-      "memory": 512,
+    "api/server.js": {
       "maxDuration": 30
     }
   },
