@@ -7,6 +7,8 @@ import { createContext } from "../server/_core/context";
 import { registerOAuthRoutes } from "../server/_core/oauth";
 import { registerStorageProxy } from "../server/_core/storageProxy";
 
+import { getMarketIntelligence } from "../server/services/market-trends";
+
 const app = express();
 
 app.use(express.json({ limit: "50mb" }));
@@ -16,7 +18,6 @@ registerStorageProxy(app);
 registerOAuthRoutes(app);
 
 app.get("/api/market-trends", (_req, res) => {
-  const { getMarketIntelligence } = require("../server/services/market-trends");
   res.json(getMarketIntelligence());
 });
 
